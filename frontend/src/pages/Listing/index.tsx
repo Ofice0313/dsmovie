@@ -3,19 +3,27 @@ import MovieCard from "components/MovieCard";
 import './styles.css';
 import axios from "axios";
 import { BASE_URL } from "utils/requests";
+import { useEffect, useState } from "react";
+import type { MoviePage } from "types/movie";
 
 
 
 function Listing() {
 
-    //FORMA ERRDA 
-    axios.get(`${BASE_URL}/api/movies?size=12&page=0`)
-    .then(response => {
-        console.log(response.data);
-    });
+    const [pageNumber, setPageNumber] =useState(0);
+
+    useEffect(() => {
+        axios.get(`${BASE_URL}/api/movies?size=12&page=0`)
+        .then(response => {
+            const data = response.data as MoviePage;
+            setPageNumber(data.number);
+        });
+    }, []);
 
     return (
         <>
+
+            <p>{pageNumber}</p>
             <Pagination />
 
             <div className="container">
